@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Cash Rewards - Limited Time Offers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .glow { box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .live-indicator { animation: blink 1s linear infinite; }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-gift text-3xl text-purple-600 mr-3"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">OkWow Rewards</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center text-green-600">
+                        <span class="live-indicator bg-green-500 w-2 h-2 rounded-full mr-2"></span>
+                        <span class="text-sm font-medium" id="activeUsers">1,247</span>
+                        <span class="text-sm ml-1">online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg pt-20 pb-16 text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold pulse-animation">
+                            🔥 LIMITED TIME
+                        </span>
+                        <span class="ml-3 text-yellow-300 font-semibold">Ends in <span id="countdown">23:59:47</span></span>
+                    </div>
+                    <h2 class="text-5xl font-bold mb-6 leading-tight">
+                        Get Up To <span class="text-yellow-300">$850</span> Cash Rewards!
+                    </h2>
+                    <p class="text-xl mb-8 opacity-90">
+                        Exclusive offers available now! Choose from multiple reward programs and start earning immediately.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg glow hover:bg-yellow-300 transition-all">
+                            <i class="fas fa-rocket mr-2"></i>
+                            Claim Your Reward
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-gray-900 transition-all">
+                            <i class="fas fa-play mr-2"></i>
+                            Watch How It Works
+                        </button>
+                    </div>
+                </div>
+                <div class="floating">
+                    <img src="https://img.freepik.com/premium-photo/face-woman-money-fan-finance-prize-reward-with-achievement-success-white-background-winner-with-cash-hands-eyes-dollar-bills-financial-freedom-with-bonus-studio_590464-265126.jpg" 
+                         alt="Cash Rewards Winner" class="rounded-2xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Stats Bar -->
+    <section class="bg-gray-900 text-white py-4">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div>
+                    <div class="text-2xl font-bold text-green-400" id="totalPaid">$2,847,392</div>
+                    <div class="text-sm opacity-75">Total Paid Out</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-blue-400" id="membersCount">47,293</div>
+                    <div class="text-sm opacity-75">Active Members</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-yellow-400" id="todayPayouts">$18,420</div>
+                    <div class="text-sm opacity-75">Paid Today</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-purple-400">4.9/5</div>
+                    <div class="text-sm opacity-75">Trust Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Transaction Feed -->
+    <section class="bg-white py-8">
+        <div class="container mx-auto px-4">
+            <h3 class="text-2xl font-bold text-center mb-6">🔴 Live Payouts</h3>
+            <div class="bg-gray-50 rounded-lg p-6 max-h-64 overflow-y-auto" id="liveTransactions">
+                <!-- Transactions will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Offers Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Choose Your Reward Program</h2>
+                <p class="text-xl text-gray-600">Multiple ways to earn - Pick the one that works best for you!</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <!-- Seniors Offer -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://img.freepik.com/premium-photo/wealthy-rich-happy-elderly-couple-with-cash-money-piggy-bank_116547-71702.jpg" 
+                             alt="Seniors Cash Reward" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            Most Popular
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Seniors Special Program</h3>
+                        <div class="text-4xl font-bold text-green-600 mb-4">$500</div>
+                        <p class="text-gray-600 mb-6">Exclusive reward program designed specifically for seniors aged 55+. Easy qualification process.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Age 55+ qualification</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Simple 5-minute process</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Direct deposit available</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> No hidden fees</li>
+                        </ul>
+                        <a href="https://afflat3a1.com/trk/lnk/BFD92E94-FC86-465A-A1B5-B3F689A4FBF5/?o=31555&c=918277&a=779001&k=BF018D80C88083875CB853A115486BF6&l=37101&s1=ASH_-Relaxteam" target="_blank" 
+                           class="block w-full bg-green-600 text-white text-center py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-all">
+                            <i class="fas fa-hand-holding-usd mr-2"></i>
+                            Claim $500 Seniors Reward
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Credit Card Bill Offer -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://images.ctfassets.net/90p5z8n8rnuv/4xFfA28LDwTknmRyAA2fAi/0d94d49d279fcdd065323309614ffe16/What_Bills_Can_You_Pay_with_a_Credit_Card_Asset_-_01.jpg" 
+                             alt="Credit Card Bill Relief" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            Bill Relief
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Credit Card Bill Assistance</h3>
+                        <div class="text-4xl font-bold text-blue-600 mb-4">$500</div>
+                        <p class="text-gray-600 mb-6">Get help with your credit card bills through our financial assistance program.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Bill payment assistance</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Quick approval process</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Flexible terms</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> 24/7 support</li>
+                        </ul>
+                        <a href="https://afflat3a1.com/trk/lnk/BFD92E94-FC86-465A-A1B5-B3F689A4FBF5/?o=31555&c=918277&a=779001&k=BF018D80C88083875CB853A115486BF6&l=37101&s1=ASH_-Relaxteam" target="_blank" 
+                           class="block w-full bg-blue-600 text-white text-center py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all">
+                            <i class="fas fa-credit-card mr-2"></i>
+                            Get $500 Bill Assistance
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cash App $750 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="relative">
+                        <img src="https://www.lifewire.com/thmb/1Vy7nsX4Pg9TTpqF2H6h3TZMx2w=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/tech-daily-V06dt37iQFY-unsplash-ef232cadfe3646c2b1e1dce0cbf7a53e.jpg" 
+                             alt="Cash App Bonus" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            Mobile Bonus
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Cash App Bonus</h3>
+                        <div class="text-4xl font-bold text-purple-600 mb-4">$750</div>
+                        <p class="text-gray-600 mb-6">Earn cash rewards directly to your Cash App account. Quick and easy mobile setup.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Instant mobile setup</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Direct Cash App transfer</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> No bank account needed</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Same-day processing</li>
+                        </ul>
+                        <a href="https://afflat3d2.com/trk/lnk/0E1074F9-203C-42F1-8D90-397727D744C4/?o=26462&c=918277&a=747480&k=D8E9CD373E16B70482BA17CE4715A599&l=28035&s1=Relaxteam" target="_blank" 
+                           class="block w-full bg-purple-600 text-white text-center py-4 rounded-lg font-bold text-lg hover:bg-purple-700 transition-all">
+                            <i class="fas fa-mobile-alt mr-2"></i>
+                            Claim $750 Cash App
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cash App $850 Premium -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover relative">
+                    <div class="absolute -top-2 -right-2 bg-gold-500 text-white p-2 rounded-full">
+                        <i class="fas fa-crown text-yellow-400"></i>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.ctfassets.net/jwea2w833xe7/JNr0WiZgB1KlufDmNWWnY/6b19126b93cf260c9944ea56a7e0f2b4/share_bank.png" 
+                             alt="Premium Cash App" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
+                            Premium
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium Cash App Bonus</h3>
+                        <div class="text-4xl font-bold text-yellow-600 mb-4">$850</div>
+                        <p class="text-gray-600 mb-6">Our highest-value Cash App reward program with exclusive premium benefits.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-2"></i> Highest reward amount</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-2"></i> Premium member benefits</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-2"></i> Priority processing</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-2"></i> VIP customer support</li>
+                        </ul>
+                        <a href="https://www.aplfb8trk.com/2XLWSZ1N/BW3LNT4/" target="_blank" 
+                           class="block w-full bg-yellow-500 text-gray-900 text-center py-4 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-all">
+                            <i class="fas fa-star mr-2"></i>
+                            Claim $850 Premium
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">What Our Members Say</h2>
+                <p class="text-xl text-gray-600">Real people, real rewards, real results</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://www.shutterstock.com/image-photo/studio-close-portrait-happy-smiling-260nw-2153541715.jpg" 
+                             alt="Sarah M." class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Sarah M.</h4>
+                            <div class="text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Received my $500 seniors reward in just 3 days! The process was incredibly simple and the support team was amazing."</p>
+                    <div class="mt-4 text-sm text-green-600 font-semibold">✓ Verified Purchase</div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://www.shutterstock.com/image-photo/studio-close-portrait-handsome-young-260nw-2134031979.jpg" 
+                             alt="Mike R." class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Mike R.</h4>
+                            <div class="text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"The Cash App bonus of $750 helped me so much with my bills. Legitimate program with fast payouts!"</p>
+                    <div class="mt-4 text-sm text-green-600 font-semibold">✓ Verified Purchase</div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://thumbs.dreamstime.com/b/portrait-happy-excited-african-american-young-woman-pointing-finger-fan-cash-money-dollar-bills-isolated-studio-pink-373841540.jpg" 
+                             alt="Jennifer L." class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Jennifer L.</h4>
+                            <div class="text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Premium $850 reward was exactly what I needed. Professional service and they delivered exactly as promised!"</p>
+                    <div class="mt-4 text-sm text-green-600 font-semibold">✓ Verified Purchase</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & Security Section -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Trusted & Secure Platform</h2>
+                <p class="text-xl opacity-75">Your security and privacy are our top priorities</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div class="card-hover p-6">
+                    <i class="fas fa-shield-alt text-5xl text-green-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">SSL Encrypted</h3>
+                    <p class="opacity-75">Bank-level security encryption</p>
+                </div>
+                <div class="card-hover p-6">
+                    <i class="fas fa-user-shield text-5xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Privacy Protected</h3>
+                    <p class="opacity-75">Your data is never shared</p>
+                </div>
+                <div class="card-hover p-6">
+                    <i class="fas fa-clock text-5xl text-yellow-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">24/7 Support</h3>
+                    <p class="opacity-75">Round-the-clock assistance</p>
+                </div>
+                <div class="card-hover p-6">
+                    <i class="fas fa-medal text-5xl text-purple-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">5+ Years</h3>
+                    <p class="opacity-75">Proven track record</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Don't Wait - Limited Time Offers!</h2>
+            <p class="text-xl mb-8 opacity-90">These exclusive rewards won't last forever. Choose your program and start earning today!</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#offers" class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg glow hover:bg-yellow-300 transition-all">
+                    <i class="fas fa-arrow-up mr-2"></i>
+                    Choose Your Reward
+                </a>
+                <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-gray-900 transition-all">
+                    <i class="fas fa-headset mr-2"></i>
+                    Get Support
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-gift text-2xl text-purple-400 mr-2"></i>
+                        <h3 class="text-xl font-bold">OkWow Rewards</h3>
+                    </div>
+                    <p class="opacity-75">Connecting people with exclusive cash reward opportunities since 2019.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 opacity-75">
+                        <li><a href="#" class="hover:text-purple-400">How It Works</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Success Stories</a></li>
+                        <li><a href="#" class="hover:text-purple-400">FAQ</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 opacity-75">
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Disclaimer</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-2xl hover:text-purple-400"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-2xl hover:text-purple-400"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-purple-400"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-2xl hover:text-purple-400"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center opacity-75">
+                <p>&copy; 2024 OkWow Rewards. All rights reserved. Results may vary. Terms and conditions apply.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            const distance = tomorrow - now;
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').textContent = 
+                ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+        }
+
+        // Live Stats Updates
+        function updateStats() {
+            const totalPaid = document.getElementById('totalPaid');
+            const membersCount = document.getElementById('membersCount');
+            const todayPayouts = document.getElementById('todayPayouts');
+            const activeUsers = document.getElementById('activeUsers');
+
+            // Simulate live updates
+            setInterval(() => {
+                const currentTotal = parseInt(totalPaid.textContent.replace(/[^0-9]/g, ''));
+                totalPaid.textContent = '$' + (currentTotal + Math.floor(Math.random() * 100)).toLocaleString();
+                
+                const currentMembers = parseInt(membersCount.textContent.replace(/[^0-9]/g, ''));
+                membersCount.textContent = (currentMembers + Math.floor(Math.random() * 3)).toLocaleString();
+                
+                const currentToday = parseInt(todayPayouts.textContent.replace(/[^0-9]/g, ''));
+                todayPayouts.textContent = '$' + (currentToday + Math.floor(Math.random() * 50)).toLocaleString();
+                
+                const currentActive = parseInt(activeUsers.textContent.replace(/[^0-9]/g, ''));
+                activeUsers.textContent = (currentActive + Math.floor(Math.random() * 10) - 5).toLocaleString();
+            }, 3000);
+        }
+
+        // Live Transaction Feed
+        function createLiveTransactions() {
+            const transactions = [
+                { name: "Sarah M.", amount: 500, program: "Seniors", time: "2 minutes ago" },
+                { name: "Mike R.", amount: 750, program: "Cash App", time: "5 minutes ago" },
+                { name: "Jennifer L.", amount: 850, program: "Premium", time: "8 minutes ago" },
+                { name: "David K.", amount: 500, program: "Credit Card", time: "12 minutes ago" },
+                { name: "Lisa P.", amount: 750, program: "Cash App", time: "15 minutes ago" },
+                { name: "Robert J.", amount: 500, program: "Seniors", time: "18 minutes ago" }
+            ];
+
+            const container = document.getElementById('liveTransactions');
+            
+            transactions.forEach(transaction => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0';
+                div.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-green-500 rounded-full mr-3 pulse-animation"></div>
+                        <div>
+                            <div class="font-semibold">${transaction.name}</div>
+                            <div class="text-sm text-gray-500">${transaction.time}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-green-600">$${transaction.amount}</div>
+                        <div class="text-sm text-gray-500">${transaction.program}</div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Auto-scroll new transactions
+            setInterval(() => {
+                const names = ['Alex', 'Emma', 'John', 'Maria', 'Chris', 'Amy', 'Paul', 'Kate'];
+                const programs = ['Seniors', 'Cash App', 'Premium', 'Credit Card'];
+                const amounts = [500, 750, 850];
+                
+                const newTransaction = document.createElement('div');
+                newTransaction.className = 'flex justify-between items-center py-2 border-b border-gray-200 bg-green-50 rounded transition-all duration-1000';
+                
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                const randomProgram = programs[Math.floor(Math.random() * programs.length)];
+                const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+                
+                newTransaction.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-green-500 rounded-full mr-3 pulse-animation"></div>
+                        <div>
+                            <div class="font-semibold">${randomName} ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}.</div>
+                            <div class="text-sm text-gray-500">Just now</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-green-600">$${randomAmount}</div>
+                        <div class="text-sm text-gray-500">${randomProgram}</div>
+                    </div>
+                `;
+                
+                container.insertBefore(newTransaction, container.firstChild);
+                
+                // Remove old transactions
+                if (container.children.length > 6) {
+                    container.removeChild(container.lastChild);
+                }
+                
+                // Fade out highlight
+                setTimeout(() => {
+                    newTransaction.classList.remove('bg-green-50');
+                }, 2000);
+                
+            }, 8000);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            updateStats();
+            createLiveTransactions();
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
